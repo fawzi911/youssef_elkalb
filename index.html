@@ -66,7 +66,7 @@
                     nb++
                 }
             }
-            return nb >= 1 ? `<p id="p2">you get ${nb} right answer</p><p id="p3">winner</p>` : `<p id="p2">you get ${nb} right answer</p><p id="p4">loooooooser</p>`
+            return nb >= 3 ? `<p id="p2">you get ${nb} right answer</p><p id="p3">winner</p>` : `<p id="p2">you get ${nb} right answer</p><p id="p4">loooooooser</p>`
         }
         subbtn.addEventListener('click', () => {
             var value = document.querySelectorAll('#container')[0].children
