@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h1>LOTTERIE EN LIGNE</h1>
+    <h4>veuillez chosir votre numéro Mr/Mme:</h4>
+    <p id="p1"></p>
+    <div id="container">
+        <input type="number" id="val1" value="" max="20" min="5" required>
+        <input type="number" id="val2" value="" max="20" min="5" required>
+        <input type="number" id="val3" value="" max="20" min="5" required>
+        <input type="number" id="val4" value="" max="20" min="5" required>
+        <input type="number" id="val5" value="" max="20" min="5" required>
+        <input type="number" id="val6" value="" max="20" min="5" required>
+    </div>
+    <button id="subbtn">melanger</button>
+    <button id="stopbtn">stop</button>
+    <div id="result">
+        <input type="number" value="5" disabled>
+        <input type="number" value="5" disabled>
+        <input type="number" value="5" disabled>
+        <input type="number" value="5" disabled>
+        <input type="number" value="5" disabled>
+        <input type="number" value="5" disabled>
+    </div>
+    <div id="answer"></div>
+    <script>
+        var name = prompt('votre nom svp')
+        if (name != "null") {
+            document.getElementById('p1').innerHTML = name
+        }
+        var subbtn = document.querySelector('#subbtn')
+        var stopbtn = document.querySelector('#stopbtn')
+        var answer = document.querySelector('#answer')
+        const fillArr = (val) => {
+            arr = []
+            for (var i = 0; i < 6; i++) {
+                arr.push(val[i].value)
+            }
+            return arr
+        }
+        const findProblem = (arr) => {
+            for (var i = 0; i < arr.length; i++) {
+                var pbIndx = -1
+                var val = arr[i]
+                if ((val == '') | (21 < val) | (val < 5)) {
+                    pbIndx = i + 1
+                    alert(`you have problem on input field ${pbIndx} please change the value`)
+                    break
+                }
+            }
+
+            return pbIndx
+        }
+        const succ = (arr1, arr2) => {
+            var nb = 0
+            for (var i = 0; i < arr1.length; i++) {
+                if (arr1[i] == arr2[i]) {
+                    nb++
+                }
+            }
+            return nb >= 3 ? `<p>you get ${nb} right answer</p><p>winner</p>` : `<p>you get ${nb} right answer</p><p>loooooooser</p>`
+        }
+        subbtn.addEventListener('click', () => {
+            var value = document.querySelectorAll('#container')[0].children
+            let inArr = fillArr(value)
+            var result = document.querySelectorAll('#result')[0].children
+            var pb = findProblem(inArr)
+            var fanswer = ''
+
+            if (pb == -1) {
+                var interval = setInterval(() => {
+                    for (var i = 0; i < 6; i++) {
+                        result[i].value = Math.floor(Math.random() * 16) + 5
+                    }
+                }, 10)
+                stopbtn.addEventListener('click', () => {
+                    clearInterval(interval)
+                    var result = document.querySelectorAll('#result')[0].children
+                    var reArr = fillArr(result)
+                    fanswer += succ(inArr, reArr)
+                    answer.innerHTML = fanswer
+                })
+            }
+
+        })
+    </script>
+</body>
+
+</html>
